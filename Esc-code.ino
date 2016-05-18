@@ -37,7 +37,7 @@ void setup()
  pinMode(led1,OUTPUT);
  pinMode(led2,OUTPUT);
  pinMode(led3,OUTPUT);
-  
+
  Serial.begin(9600);
  delay(1000);
 
@@ -45,10 +45,10 @@ void setup()
  pinMode(encoder_pin3, INPUT);
  pinMode(encoder_pin2, INPUT);
  pinMode(encoder_pin, INPUT);
- attachInterrupt(encoder_pin2, rpm_fun, RISING);
+ attachInterrupt(encoder_pin, rpm_fun, RISING);
  pulses = 0;
- WHEELCIRC = 2 * PI * radius; 
- 
+ WHEELCIRC = 2 * PI * radius;
+
  myEsc.begin();
  delay(15000);
   timeold = millis();
@@ -58,7 +58,7 @@ void setup()
 
 void loop()
 {
-  myEsc.write(50);
+  myEsc.write(170);
  if (millis() - Serial_timer > 100)
  {
   Serial.flush();
@@ -78,9 +78,9 @@ void loop()
    speed = speed * 1000;
    speed = speed / (float)(millis() - timeold);
    speed = speed * 60 / 7;
-   
+
    timeold = millis();
-   pulses = 0; 
+   pulses = 0;
  }
  if(millis() - Dyno_timer > 50000)
  {
@@ -94,4 +94,3 @@ void loop()
   }
  }
 }
-
