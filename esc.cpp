@@ -5,7 +5,7 @@ void Esc::begin() {
   _esc = new Servo();
 
   //Initilize ESC
-	//Serial.println("Initializing ESC");
+	Serial.println("Starting ESC Handshake");
   digitalWrite(led2,HIGH);
 	_esc->attach(servo_pin); //ESC needs a low high low signal to turn on
 	delay(500);
@@ -15,7 +15,7 @@ void Esc::begin() {
 	delay(500);
 	_esc->write(0);
 	delay(1000);
-	//Serial.println("Electronic Speed Controller Initialization Successful");
+	Serial.println("Finished ESC Handshake");
   digitalWrite(led2,LOW);
 }
 
@@ -29,5 +29,3 @@ void Esc::write(uint16_t throttle) {
   _esc->write(throttle);
 
 }
-
-
