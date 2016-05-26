@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "esc.h"
-#include <FLEXCAN.h>
+#include <FlexCAN.h>
 #include <kinetis_flexcan.h>
+#include "can_message_def.h"
+#include "can_message.h"
 
 volatile byte pulses;
 uint32_t total_pulses;
@@ -21,12 +23,14 @@ int maxPedalVoltage = 1010;
 
 float WHEELCIRC;
 
+FlexCAN CANTx(500000);
+static CAN_message_t msg;
+
+can_msg::MsgEncode rpm_msg( can_msg::INT16, can_msg::MOTOR, can_msg::MRPM, can_msg::CRITICAL, 1 );
+
 int radius = 0.444;
 
 Esc myEsc;
-
-FlexCAN CANTx(500000);
-static CAN_message_t msg;
 
 void rpm_fun(){
  pulses++;
@@ -39,6 +43,14 @@ void rpm_fun(){
   digitalWrite(led1,LOW);
   led_toggle = 0;
  }
+}
+
+void send_rpm(int16_t val) {
+  // send rmps
+  msg.id = rpm_msg.id();
+  msg.len = rpm_msg.len();
+  rpm_msg.buf(msg.buf, val);
+  CANTx.write(msg);
 }
 
 void setup(){
@@ -74,6 +86,7 @@ void loop(){
   Serial.print(speed);
   Serial.print(",");
   Serial.println(total_pulses/7);
+	send_rpm(speed);
  }
  if (pulses >= 100) {
    //Update RPM every 20 counts, increase this for better RPM resolution,

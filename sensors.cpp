@@ -5,6 +5,7 @@ uint16_t Sensors::mcurrent(int curr_sens_pin) {
    * curr_val = (analogvalue - zero'ing_factor)/linearity_factor
    */
   curr_val = (analogRead(curr_sens_pin) - 303)/2.71;
+	return curr_val;
 }
 
 //int enc1_val, int enc1, int enc_inc, int enc1_count, int enc1_avg, int count, int enc1_hold, int wheel_diam, int gear_rat, uint16_t runtime, uint16_t velocity
