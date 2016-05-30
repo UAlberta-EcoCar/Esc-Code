@@ -18,11 +18,6 @@ const int encoder_pin = 16;
 const int encoder_pin2 = 17;
 const int encoder_pin3 = 15;
 
-// Current Control Pin
-const int curr_sens_pin = A3; //set current sensor signal to arduino pin A3
-
-// Pinger Control Pin
-const int pinger_pin = A5; //set pinger input pin to arduino pin A5
 
 //Motor Spec's
 const int wheel_diam = 444; //Wheel diameter in mm's

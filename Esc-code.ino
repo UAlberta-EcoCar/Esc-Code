@@ -53,12 +53,12 @@ void setup()
  delay(15000);
   timeold = millis();
   Dyno_timer = millis();
- myEsc.write(170);
+ myEsc.write(20);
 }
 
 void loop()
 {
-  myEsc.write(170);
+  //myEsc.write(20);
  if (millis() - Serial_timer > 100)
  {
   Serial.flush();
@@ -84,7 +84,7 @@ void loop()
  }
  if(millis() - Dyno_timer > 50000)
  {
-  myEsc.write(0);
+  myEsc.write(15);
  }
  if(millis() - Dyno_timer > 80000)
  {
