@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "esc.h"
-//#include <FlexCAN.h>
-//#include <kinetis_flexcan.h>
+#include <mcp2515_lib.h>
+#include <mcp2515_filters.h>
 #include "can_message_def.h"
 #include "can_message.h"
 
@@ -23,10 +23,7 @@ int maxPedalVoltage = 1010;
 
 float WHEELCIRC;
 
-//FlexCAN CANTx(500000);
-//static CAN_message_t msg;
-
-//can_msg::MsgEncode rpm_msg( can_msg::INT16, can_msg::MOTOR, can_msg::MRPM, can_msg::CRITICAL, 1 );
+can_msg::MsgEncode rpm_msg( can_msg::INT16, can_msg::MOTOR, can_msg::MRPM, can_msg::CRITICAL, 1 );
 
 int radius = 0.444;
 
@@ -44,25 +41,37 @@ void rpm_fun(){
   led_toggle = 0;
  }
 }
-/*
+
+void canBegin() {
+  // Initialize CAN
+  Serial.println("Initializing CAN Controller");
+  if (can_init(0,0,0,0,0,0,0,0)){
+    Serial.println("Error: CAN initialization D:");
+    while(1); // hang up program
+  }
+  Serial.println("CAN Controller Initialized :D");
+}
+
 void send_rpm(int16_t val) {
   // send rmps
-  msg.id = rpm_msg.id();
-  msg.len = rpm_msg.len();
-  rpm_msg.buf(msg.buf, val);
-  CANTx.write(msg);
-}*/
+	CanMessage message;
+  message.id = rpm_msg.id();
+	message.length = rpm_msg.len();
+	rpm_msg.buf( message.data, val );
+	can_send_message(&message);
+}
+
 
 void setup(){
 	pinMode(led1,OUTPUT);
 	pinMode(led2,OUTPUT);
   pinMode(led3,OUTPUT);
-	pinMode(A1,INPUT);
 
 	Serial.begin(9600);
   delay(1000);
 
   //pins must be set to input before interrupt is attached
+	pinMode(A1,INPUT);
   pinMode(encoder_pin3, INPUT);
   pinMode(encoder_pin2, INPUT);
   pinMode(encoder_pin, INPUT);
@@ -75,7 +84,6 @@ void setup(){
 	timeold = millis();
   Dyno_timer = millis();
 
-	//CANTx.begin();
 }
 
 void loop(){
@@ -87,8 +95,9 @@ void loop(){
   Serial.print(speed);
   Serial.print(",");
   Serial.println(total_pulses/7);
-	//send_rpm(speed);
+	send_rpm(speed);
  }
+ 
  if (pulses >= 100) {
    //Update RPM every 20 counts, increase this for better RPM resolution,
    //decrease for faster update
