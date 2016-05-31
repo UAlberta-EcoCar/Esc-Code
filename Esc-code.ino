@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "hardware.h"
 #include "esc.h"
-#include <FlexCAN.h>
-#include <kinetis_flexcan.h>
+//#include <FlexCAN.h>
+//#include <kinetis_flexcan.h>
 #include "can_message_def.h"
 #include "can_message.h"
 
@@ -23,10 +23,10 @@ int maxPedalVoltage = 1010;
 
 float WHEELCIRC;
 
-FlexCAN CANTx(500000);
-static CAN_message_t msg;
+//FlexCAN CANTx(500000);
+//static CAN_message_t msg;
 
-can_msg::MsgEncode rpm_msg( can_msg::INT16, can_msg::MOTOR, can_msg::MRPM, can_msg::CRITICAL, 1 );
+//can_msg::MsgEncode rpm_msg( can_msg::INT16, can_msg::MOTOR, can_msg::MRPM, can_msg::CRITICAL, 1 );
 
 int radius = 0.444;
 
@@ -44,19 +44,20 @@ void rpm_fun(){
   led_toggle = 0;
  }
 }
-
+/*
 void send_rpm(int16_t val) {
   // send rmps
   msg.id = rpm_msg.id();
   msg.len = rpm_msg.len();
   rpm_msg.buf(msg.buf, val);
   CANTx.write(msg);
-}
+}*/
 
 void setup(){
 	pinMode(led1,OUTPUT);
 	pinMode(led2,OUTPUT);
   pinMode(led3,OUTPUT);
+	pinMode(A1,INPUT);
 
 	Serial.begin(9600);
   delay(1000);
@@ -74,7 +75,7 @@ void setup(){
 	timeold = millis();
   Dyno_timer = millis();
 
-	CANTx.begin();
+	//CANTx.begin();
 }
 
 void loop(){
@@ -86,7 +87,7 @@ void loop(){
   Serial.print(speed);
   Serial.print(",");
   Serial.println(total_pulses/7);
-	send_rpm(speed);
+	//send_rpm(speed);
  }
  if (pulses >= 100) {
    //Update RPM every 20 counts, increase this for better RPM resolution,
@@ -103,7 +104,7 @@ void loop(){
    pulses = 0;
  }
 
- 	rawIn = analogRead(A11);
+ 	rawIn = analogRead(A2);
 	//int throttleVoltage = ((rawIn * 33)) / 10230;
 	throttle_val = ((rawIn - minPedalVoltage) / (maxPedalVoltage - minPedalVoltage)) * 180;
 	Serial.print("Raw In: ");
