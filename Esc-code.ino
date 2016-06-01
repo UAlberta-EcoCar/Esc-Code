@@ -95,9 +95,9 @@ void loop(){
   Serial.print(speed);
   Serial.print(",");
   Serial.println(total_pulses/7);
-	send_rpm(speed);
+	//send_rpm(speed);
  }
- 
+
  if (pulses >= 100) {
    //Update RPM every 20 counts, increase this for better RPM resolution,
    //decrease for faster update
@@ -118,9 +118,10 @@ void loop(){
 	throttle_val = ((rawIn - minPedalVoltage) / (maxPedalVoltage - minPedalVoltage)) * 180;
 	Serial.print("Raw In: ");
 	Serial.println(rawIn);
-	Serial.println("Throttle Value: ");
+	Serial.print("Throttle Value: ");
 	Serial.println(throttle_val);
 
+	
 	if (throttle_val <= 180 && throttle_val >= 0){
 		myEsc.write(throttle_val);
 	}
@@ -130,4 +131,6 @@ void loop(){
 	else{
 		myEsc.write(0);
 	}
+
+	//myEsc.write(70);
 }

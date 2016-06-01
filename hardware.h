@@ -6,12 +6,12 @@ const int CAN_INT = 10;
 const int BR = 9600; //set Baud Rate - 115200 doesn't work
 
 // Set Servo Pin
-const int servo_pin = 23; //Set servo pin
+const int servo_pin = 12; //Set servo pin
 
 // Board LED's
 const int led1 = 10; //set LED pins
 const int led2 = 11;
-const int led3 = 12;
+const int led3 = 9;
 
 // Encoder Control Pins
 const int encoder_pin = 16;
