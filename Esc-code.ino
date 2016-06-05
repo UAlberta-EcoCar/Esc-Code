@@ -18,7 +18,7 @@ uint32_t Dyno_timer;
 
 int throttle_val = 10;
 int rawIn = 10;
-float minPedalVoltage = 140.0;
+float minPedalVoltage = 190.0;
 int maxPedalVoltage = 1010;
 
 float WHEELCIRC;
@@ -121,7 +121,7 @@ void loop(){
 	Serial.print("Throttle Value: ");
 	Serial.println(throttle_val);
 
-	
+
 	if (throttle_val <= 180 && throttle_val >= 0){
 		myEsc.write(throttle_val);
 	}
