@@ -104,11 +104,11 @@ void loop(){
  }
 
  	rawIn = analogRead(A11);
-	//int throttleVoltage = ((rawIn * 33)) / 10230;
-	throttle_val = ((rawIn - minPedalVoltage) / (maxPedalVoltage - minPedalVoltage)) * 180;
 	Serial.print("Raw In: ");
 	Serial.println(rawIn);
-	Serial.println("Throttle Value: ");
+	//int throttleVoltage = ((rawIn * 33)) / 10230;
+	throttle_val = ((rawIn - minPedalVoltage) / (maxPedalVoltage - minPedalVoltage)) * 180;
+	Serial.print("Throttle Value: ");
 	Serial.println(throttle_val);
 
 	if (throttle_val <= 180 && throttle_val >= 0){
