@@ -18,8 +18,8 @@ uint32_t Dyno_timer;
 
 int throttle_val = 10;
 int rawIn = 10;
-float minPedalVoltage = 140.0;
-int maxPedalVoltage = 1010;
+float minPedalVoltage = 240.0;
+int maxPedalVoltage = 890.0;
 
 float WHEELCIRC;
 
@@ -45,13 +45,13 @@ void rpm_fun(){
  }
 }
 
-void send_rpm(int16_t val) {
+/*void send_rpm(int16_t val) {
   // send rmps
   msg.id = rpm_msg.id();
   msg.len = rpm_msg.len();
   rpm_msg.buf(msg.buf, val);
   CANTx.write(msg);
-}
+}*/
 
 void setup(){
 	pinMode(led1,OUTPUT);
@@ -74,10 +74,11 @@ void setup(){
 	timeold = millis();
   Dyno_timer = millis();
 
-	CANTx.begin();
+	//CANTx.begin();
 }
 
 void loop(){
+	/*
  if (millis() - Serial_timer > 100)
  {
   Serial.flush();
@@ -86,7 +87,7 @@ void loop(){
   Serial.print(speed);
   Serial.print(",");
   Serial.println(total_pulses/7);
-	send_rpm(speed);
+	//send_rpm(speed);
  }
  if (pulses >= 100) {
    //Update RPM every 20 counts, increase this for better RPM resolution,
@@ -101,9 +102,9 @@ void loop(){
 
    timeold = millis();
    pulses = 0;
- }
+ }*/
 
- 	rawIn = analogRead(A11);
+ 	rawIn = analogRead(A10);
 	Serial.print("Raw In: ");
 	Serial.println(rawIn);
 	//int throttleVoltage = ((rawIn * 33)) / 10230;
